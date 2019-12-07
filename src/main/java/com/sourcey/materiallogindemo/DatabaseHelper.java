@@ -82,7 +82,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean authenticateLogin(String email, String password){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor mCursor = db.rawQuery("SELECT * FROM " + USERS_TABLE + " WHERE EMAIL='?' AND PASSWORD='?';",
+        Cursor mCursor = db.rawQuery("SELECT * FROM " + USERS_TABLE + " WHERE EMAIL=? AND PASSWORD=?",
                 new String[]{email,password});
         if (mCursor != null && mCursor.getCount() > 0) {
             return true;
