@@ -2,19 +2,36 @@ package com.sourcey.materiallogindemo;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+
+import butterknife.BindView;
+
+
+
 public class MainActivity extends AppCompatActivity {
     public static DatabaseHelper db;
+    @BindView(R.id.action_signout) Button signOut;
+    @BindView(R.id.action_settings) Button settings;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        BottomNavigationView navView = findViewById(R.id.navigation);
+        navView.setItemIconTintList(null);
         db = new DatabaseHelper(this);
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -31,9 +48,11 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_signout) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
         }
+
 
         return super.onOptionsItemSelected(item);
     }
