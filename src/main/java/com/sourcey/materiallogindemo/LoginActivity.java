@@ -71,13 +71,16 @@ public class LoginActivity extends AppCompatActivity {
         String password = _passwordText.getText().toString();
 
         // TODO: Implement your own authentication logic here.
-
+        final boolean res = MainActivity.db.authenticateLogin(email,password);
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
                         // On complete call either onLoginSuccess or onLoginFailed
-                        onLoginSuccess();
-                        // onLoginFailed();
+                        if(res){
+                            onLoginSuccess();
+                        }else{
+                            onLoginFailed();
+                        }
                         progressDialog.dismiss();
                     }
                 }, 3000);
@@ -104,6 +107,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onLoginSuccess() {
         _loginButton.setEnabled(true);
+        Toast.makeText(getBaseContext(), "Login succeeded", Toast.LENGTH_LONG).show();
         finish();
     }
 
@@ -112,6 +116,7 @@ public class LoginActivity extends AppCompatActivity {
 
         _loginButton.setEnabled(true);
     }
+
 
     public boolean validate() {
         boolean valid = true;
