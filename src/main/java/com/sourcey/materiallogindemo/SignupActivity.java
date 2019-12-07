@@ -7,10 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -19,6 +19,7 @@ public class SignupActivity extends AppCompatActivity {
 
     @BindView(R.id.input_name) EditText _nameText;
     @BindView(R.id.input_email) EditText _emailText;
+    @BindView(R.id.checkbox_instructor) CheckBox _checkboxBoolean;
     @BindView(R.id.input_password) EditText _passwordText;
     @BindView(R.id.input_reEnterPassword) EditText _reEnterPasswordText;
     @BindView(R.id.btn_signup) Button _signupButton;
@@ -67,18 +68,24 @@ public class SignupActivity extends AppCompatActivity {
 
         String name = _nameText.getText().toString();
         String email = _emailText.getText().toString();
+        Boolean isInstructor = _checkboxBoolean.isChecked();
         String password = _passwordText.getText().toString();
         String reEnterPassword = _reEnterPasswordText.getText().toString();
 
         // TODO: Implement your own signup logic here.
+        final boolean res = MainActivity.db.insertUserData(email,name,isInstructor,password);
+
 
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
                         // On complete call either onSignupSuccess or onSignupFailed
                         // depending on success
-                        onSignupSuccess();
-                        // onSignupFailed();
+                        if(res){
+                            onSignupSuccess();
+                        }else{
+                            onSignupFailed();
+                        }
                         progressDialog.dismiss();
                     }
                 }, 3000);
@@ -87,12 +94,13 @@ public class SignupActivity extends AppCompatActivity {
 
     public void onSignupSuccess() {
         _signupButton.setEnabled(true);
+        Toast.makeText(getBaseContext(), "Sign up succeeded", Toast.LENGTH_LONG).show();
         setResult(RESULT_OK, null);
         finish();
     }
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Sign up failed", Toast.LENGTH_LONG).show();
 
         _signupButton.setEnabled(true);
     }
@@ -127,7 +135,7 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         if (reEnterPassword.isEmpty() || reEnterPassword.length() < 4 || reEnterPassword.length() > 10 || !(reEnterPassword.equals(password))) {
-            _reEnterPasswordText.setError("Password Do not match");
+            _reEnterPasswordText.setError("Passwords do not match");
             valid = false;
         } else {
             _reEnterPasswordText.setError(null);
