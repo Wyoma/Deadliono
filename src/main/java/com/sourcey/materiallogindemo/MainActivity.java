@@ -24,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        BottomNavigationView navView = findViewById(R.id.navigation);
-        navView.setItemIconTintList(null);
+        //BottomNavigationView navView = findViewById(R.id.navigation);
+        //navView.setItemIconTintList(null);
         db = new DatabaseHelper(this);
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -52,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         }
-
 
         return super.onOptionsItemSelected(item);
     }
