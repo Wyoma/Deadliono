@@ -1,0 +1,31 @@
+version: '3'
+services:
+    android:
+        build: .
+        ports:
+        - "8080:80"
+        depends_on:
+        - mysql
+    mysql:
+        image: mysql:5.7
+        environment:
+            MYSQL_DATABASE: "deadlion"
+            MYSQL_USER: "mariam"
+            MYSQL_ROOT_PASSWORD: "1234"
+        volumes:
+        - ./mysql:/var/lib/mysql
+        ports:
+        - "3306:3306"
+    node:
+        image: "node:8"
+        user: "node"
+        working_dir: /home/node/app
+        depends_on:
+        - mysql
+        environment:
+        - NODE_ENV=production
+        volumes:
+        - ./:/home/node/app
+        expose:
+        - "8081"
+        command: bash -c "npm install express && npm install mysql && npm start"

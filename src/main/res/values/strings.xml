@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Deadliono</string>
+    <string name="title_home">Home</string>
+    <string name="title_addcourses">Add Courses</string>
+    <string name="title_profile">Profile</string>
+    <string name="add_course">Add Course</string>
+    <string name="action_signout">Sign Out</string>
+</resources>
